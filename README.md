@@ -1,6 +1,10 @@
 # ClouderaStreamingAnalyticsSQLWorkshop
 
-Apache Flink SQL 1.10 / CSA / Cloudera on YARN
+Welcome to the initial lab for utilizing Apache Flink SQL 1.10 / CSA / Cloudera on YARN.
+
+First we will need to make sure that the Apache Flink user you will be running under has access to HDFS.   HDFS will be used to hold logs and important run time data.   You can also output data to HDFS as needed.   You can run HDFS commands or change via the Hue interface.
+
+![](https://user-images.githubusercontent.com/18673814/86636756-ae69d500-bfa2-11ea-96c5-65bfe9277eb3.png)
 
 **Apache Flink SQL Lab Setup - HDFS Preparation**
 
@@ -11,6 +15,8 @@ HADOOP_USER_NAME=hdfs hdfs dfs -chown root:root /user/root
 HADOOP_USER_NAME=hdfs hdfs dfs -chown admin:admin /user/admin
 HADOOP_USER_NAME=hdfs hdfs dfs -chmod -R 777 /user
 ```
+
+You will need to login to the Flink server via SSH or via the webSSH.
 
 **Build a Flink YARN Session**
 
@@ -52,6 +58,34 @@ SELECT * FROM sensors;
 ```
 
 **Flink SQL**
+
+Now that we have made a table on our **iot** sensors Kafka topic, we will add one for destination data.
+
+```
+INSERT INTO global_sensor_events 
+SELECT 
+	scada.uuid, 
+	scada.systemtime ,  
+scada.temperaturef , 
+scada.pressure , 
+scada.humidity , 
+scada.lux , 
+scada.proximity , 
+scada.oxidising , 
+scada.reducing , 
+scada.nh3 , 
+scada.gasko,
+energy.`current`, 
+energy.voltage ,
+energy.`power` ,
+energy.`total`,
+energy.fanstatus
+
+FROM energy,
+     scada
+WHERE
+    scada.systemtime = energy.systemtime;
+```
 
 image::images/cfmreferencearch.png\[width=800\]
 
