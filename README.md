@@ -61,44 +61,57 @@ SELECT * FROM sensors;
 
 **Using the Flink Dashboard UI**
 
-We will navigate to the Flink UI to examine our running Flink SQL job.   
+We will navigate to the Flink UI to examine our running Flink SQL job.
 
 ![](https://user-images.githubusercontent.com/18673814/86636997-f1c44380-bfa2-11ea-9baa-4e67dd68e2f2.png)
 
 **Flink SQL**
 
-Now that we have run our query for a while and have seen new Kafka events added to our query real-time.   Let's kill this query with CTRL-C.    
+Now that we have run our query for a while and have seen new Kafka events added to our query real-time. Let's kill this query with CTRL-C.
 
 **Lab 2**
 
 Now we will create another table on another Kafka topic.
+
+```
+CREATE TABLE devices (
+     sensor_id INT, sensor_ts DOUBLE, host STRING, systemtime STRING, cpu STRING, diskusage STRING, memory DOUBLE, uuid STRING, deviceid STRING
+
+) WITH (
+    'connector.type'         = 'kafka',
+    'connector.version'      = 'universal',
+    'connector.topic'        = 'devices',
+    'connector.startup-mode' = 'earliest-offset',
+    'connector.properties.bootstrap.servers' = 'edge2ai-1.dim.local:9092',
+    'format.type' = 'json'
+);
+```
 
 Now that we have made a table on our **iot** sensors Kafka topic, we will add one for destination data.
 
 ```
 INSERT INTO global_sensor_events 
 SELECT 
-    scada.uuid, 
-    scada.systemtime ,  
-scada.temperaturef , 
-scada.pressure , 
-scada.humidity , 
-scada.lux , 
-scada.proximity , 
-scada.oxidising , 
-scada.reducing , 
-scada.nh3 , 
-scada.gasko,
-energy.`current`, 
-energy.voltage ,
-energy.`power` ,
-energy.`total`,
-energy.fanstatus
-
-FROM energy,
-     scada
+    devices.uuid, 
+    devices.systemtime,  
+    sensor_0,
+    sensor_1,
+    sensor_2,
+    sensor_3,
+    sensor_4,
+    sensor_5,
+    sensor_6,
+    sensor_7,
+    sensor_8,
+    sensor_9,
+    sensor_10
+    sensor_11
+FROM devices,
+     sensors
 WHERE
-    scada.systemtime = energy.systemtime;
+    devices.sensor_id = sensors.sensor_id
+AND
+    devices.sensor_ts = sensors.sensor_ts
 ```
 
 We can now query this new table and also view it in the Flink UI.
