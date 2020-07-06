@@ -1,10 +1,10 @@
 # ClouderaStreamingAnalyticsSQLWorkshop
 
+**Lab 1**
+
 Welcome to the initial lab for utilizing Apache Flink SQL 1.10 / CSA / Cloudera on YARN.
 
-First we will need to make sure that the Apache Flink user you will be running under has access to HDFS.   HDFS will be used to hold logs and important run time data.   You can also output data to HDFS as needed.   You can run HDFS commands or change via the Hue interface.
-
-![](https://user-images.githubusercontent.com/18673814/86636756-ae69d500-bfa2-11ea-96c5-65bfe9277eb3.png)
+First we will need to make sure that the Apache Flink user you will be running under has access to HDFS. HDFS will be used to hold logs and important run time data. You can also output data to HDFS as needed. You can run HDFS commands or change via the Hue interface.
 
 **Apache Flink SQL Lab Setup - HDFS Preparation**
 
@@ -32,6 +32,8 @@ flink-sql-client embedded -e sql-env.yaml
 
 **Build a table**
 
+![](https://user-images.githubusercontent.com/18673814/86636756-ae69d500-bfa2-11ea-96c5-65bfe9277eb3.png)
+
 ```
 CREATE TABLE sensors (
      sensor_id INT, sensor_ts DOUBLE, sensor_0 DOUBLE,sensor_1 DOUBLE,sensor_3 DOUBLE, sensor_4 DOUBLE, sensor_5 DOUBLE, sensor_6 DOUBLE, sensor_7 DOUBLE, sensor_8 DOUBLE, sensor_9 DOUBLE, sensor_10 DOUBLE, sensor_11 DOUBLE
@@ -57,15 +59,27 @@ SHOW tables;
 SELECT * FROM sensors;
 ```
 
+**Using the Flink Dashboard UI**
+
+We will navigate to the Flink UI to examine our running Flink SQL job.   
+
+![](https://user-images.githubusercontent.com/18673814/86636997-f1c44380-bfa2-11ea-9baa-4e67dd68e2f2.png)
+
 **Flink SQL**
+
+Now that we have run our query for a while and have seen new Kafka events added to our query real-time.   Let's kill this query with CTRL-C.    
+
+**Lab 2**
+
+Now we will create another table on another Kafka topic.
 
 Now that we have made a table on our **iot** sensors Kafka topic, we will add one for destination data.
 
 ```
 INSERT INTO global_sensor_events 
 SELECT 
-	scada.uuid, 
-	scada.systemtime ,  
+    scada.uuid, 
+    scada.systemtime ,  
 scada.temperaturef , 
 scada.pressure , 
 scada.humidity , 
@@ -87,7 +101,9 @@ WHERE
     scada.systemtime = energy.systemtime;
 ```
 
-image::images/cfmreferencearch.png\[width=800\]
+We can now query this new table and also view it in the Flink UI.
+
+You have now written a real-time streaming event application to join two Kafka streams with simple SQL.
 
 **References**
 
