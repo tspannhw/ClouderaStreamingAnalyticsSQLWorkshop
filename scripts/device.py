@@ -1,3 +1,5 @@
+#!/usr/bin/env python3                                                                                                                                                 
+# -*- coding: utf-8 -*- 
 import time
 import sys
 import subprocess
@@ -58,10 +60,9 @@ end = time.time()
 row = { }
 row['host'] = os.uname()[1]
 #row['macaddress'] = psutil_iface('eth0')
-eth_mac = get_mac_address(interface="en0")
+#en0
+eth_mac = get_mac_address(interface="ens5")
 row['macaddress'] = str(eth_mac)
-#row['endtime'] = '{0}'.format( str(end ))
-#row['totalruntime'] = '{0}'.format(str(end-start))
 row['systemtime'] = datetime.datetime.now().strftime('%m/%d/%Y %H:%M:%S')
 row['cpu'] = psutil.cpu_percent(interval=1)
 usage = psutil.disk_usage("/")
