@@ -66,10 +66,24 @@ catalogs:
 Run Flink SQK Client
 flink-sql-client embedded -e sql-env.yaml
 
+show catalogs;
+
+use catalog registry;
+
+show tables;
+
+help;
+
+describe test3;
+
+select * from test3;
+
+
+For more information:
+
 Use Catalog in Flink SQL
 See:   https://docs.cloudera.com/csa/1.2.0/flink-sql-table-api/topics/csa-schemaregistry-catalog.html
 
-For more information:
 https://github.com/tspannhw/NiFItoKafkaConnect
 https://github.com/tspannhw/meetup-sensors
 https://www.datainmotion.dev/2020/05/flank-low-code-streaming-populating.html
