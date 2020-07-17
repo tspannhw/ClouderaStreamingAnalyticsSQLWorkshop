@@ -41,8 +41,8 @@ Build Kafka Connect Sink named **test3**
 }
 ```
 
-**Build Flink SQL YARN Session**  
-  
+**Build Flink SQL YARN Session**
+
 `flink-yarn-session -tm 2048 -s 2 -d`
 
 **Create sql-env.yaml for Catalogs**  
@@ -69,8 +69,8 @@ catalogs:
     kudu.masters: edge2ai-1.dim.local:7051
 ```
 
-**Run Flink SQL Client**  
-  
+**Run Flink SQL Client**
+
 `flink-sql-client embedded -e sql-env.yaml`
 
 **Inside the Flink SQL Client**
@@ -87,6 +87,12 @@ show tables;
 describe impala::default.sensors;
 select * from impala::default.sensors;
 ```
+
+Data to join to sensor?
+
+HTTP Alert Data?
+
+Weather Data?
 
 For more information:
 
