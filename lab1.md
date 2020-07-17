@@ -78,6 +78,13 @@ describe test3;
 
 select * from test3;
 
+use catalog kudu;
+
+show tables;
+
+describe impala::default.sensors;
+
+select * from `impala::default.sensors`;
 
 For more information:
 
